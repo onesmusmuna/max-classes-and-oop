@@ -1,18 +1,30 @@
-const productList = {
-  products: [
-    {
-      title: "mac",
-      imageUrl: "https://images-na.ssl-images-amazon.com/images/I/81aot0jAfFL._AC_SL1500_.jpg",
-      price: 2150,
-      description: "New Apple MacBook Pro (16-inch, 16GB RAM, 512GB Storage)",
-    },
-    {
-      title: "Stereo Receiver",
-      imageUrl: "https://images-na.ssl-images-amazon.com/images/I/51W2j6OYSwL._AC_SL1200_.jpg",
-      price: 3500,
-      description: "Sony STRDH190 2-ch Home Stereo Receiver with Phono Inputs & Bluetooth",
-    },
-  ],
+class Product {
+  constructor(title, image, price, description) {
+    this.title = title;
+    this.imageUrl = image;
+    this.price = price;
+    this.description = description;
+  }
+}
+
+class ProductList {
+  // products is a class field, Since it has an equal sign;
+  // When its defined in a constructor, it becomes a class Property
+  products = [
+    new Product(
+      "mac",
+      "https://images-na.ssl-images-amazon.com/images/I/81aot0jAfFL._AC_SL1500_.jpg",
+      2150,
+      "New Apple MacBook Pro (16-inch, 16GB RAM, 512GB Storage"
+    ),
+
+    new Product(
+      "mac",
+      "https://images-na.ssl-images-amazon.com/images/I/51W2j6OYSwL._AC_SL1200_.jpg",
+      "3500",
+      "Sony STRDH190 2-ch Home Stereo Receiver with Phono Inputs & Bluetooth"
+    ),
+  ];
 
   render() {
     const renderHook = document.getElementById("app");
@@ -20,7 +32,7 @@ const productList = {
     productList.className = "product-list";
 
     // render all products
-    for (product of this.products) {
+    for (const product of this.products) {
       const productItem = document.createElement("li");
       productItem.className = "product-item";
       productItem.innerHTML = `
@@ -37,7 +49,8 @@ const productList = {
       productList.append(productItem);
     }
     renderHook.append(productList);
-  },
-};
+  }
+}
 
+const productList = new ProductList();
 productList.render();

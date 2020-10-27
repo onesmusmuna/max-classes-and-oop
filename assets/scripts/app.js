@@ -27,7 +27,6 @@ class ProductList {
   ];
 
   render() {
-    const renderHook = document.getElementById("app");
     const productList = document.createElement("ul");
     productList.className = "product-list";
 
@@ -37,13 +36,18 @@ class ProductList {
       const productItemRender = productItem.render();
       productList.append(productItemRender);
     }
-    renderHook.append(productList);
+    return productList;
   }
 }
 
 class ProductItem {
   constructor(product) {
     this.product = product;
+  }
+
+  addToCart() {
+    console.log("Adding Product to Cart");
+    console.log(this.product);
   }
 
   render() {
@@ -60,9 +64,53 @@ class ProductItem {
           </div>
       </div>
     `;
+
+    // Notice that, I have selected the button from the listItem. It started to exist form there.
+    const addCartButton = productItem.querySelector("button");
+
+    // when we use this.addToCart, JS will bind this to the source of the event: the button;
+    // Solution: use this.addToCart.bind(this), It will bind this to the addToCart method.
+    addCartButton.addEventListener("click", this.addToCart.bind(this));
+
     return productItem;
   }
 }
 
-const productList = new ProductList();
-productList.render();
+class ShoppingCart {
+  items = [];
+
+  render() {
+    const cartEl = document.createElement("section");
+    cartEl.className = "cart";
+    cartEl.innerHTML = `
+    <h2>Total: \$${0}</h2>
+    <button>Order Now!</button>
+    `;
+
+    return cartEl;
+  }
+}
+
+class Shop {
+  render() {
+    const renderHook = document.getElementById("app");
+
+    const cart = new ShoppingCart();
+    const cartElement = cart.render();
+
+    const productList = new ProductList();
+    const productListElement = productList.render();
+
+    renderHook.append(cartElement);
+    renderHook.append(productListElement);
+  }
+}
+
+class App {
+  static init() {
+    const shop = new Shop();
+    shop.render();
+  }
+}
+
+App.init();
